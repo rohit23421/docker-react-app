@@ -1,0 +1,33 @@
+version: '3'
+# services is the container we want to run 
+# here container is web
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: [ "npm", "run", "test" ]
+
+# as we made a development dockerfile we cant use the
+# normal docker-compose up command as there's no
+# dockerfile present in the directory so we have to 
+# mention the build as context that means the path
+# where the dockerfile is present and then dockerfile
+# that means the name of dockerfile from which we want
+# to build from
+
+# for volumes we are first adding a placeholder for 
+# node_modules and then we are mapping the current
+# directory to the /app directory of the cnontainer

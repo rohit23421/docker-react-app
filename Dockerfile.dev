@@ -1,0 +1,16 @@
+# starting with a base image for the containers
+FROM node:alpine
+
+# setting up the workingdirectory for the app
+WORKDIR '/app'
+
+# copy the dependencies file to current working directory
+COPY package.json .
+
+# run the install process
+RUN npm install
+
+COPY . .
+
+# commands to run on starting of container
+CMD ["npm", "run", "start"]
