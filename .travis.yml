@@ -1,0 +1,22 @@
+# anytime we want to build docker from travis we need to
+# have a super user so we do sudo required
+sudo : required
+services:
+  - docker
+
+# it has a series of command that are executed before
+# starting the test or running the project, so we are
+# going to build our docker images before the tests
+# we tg the image to our repostiory on github so it
+# would be easy to view it and its a good convention
+before_install:
+  - docker build -t rohit23421/docker-react -f Dockerfile.dev .
+
+# commands to actually build and run tests from travis
+# also anytime we execute a test on travis it either runs sucesfully and exits
+# or just fails and here we have a npm run test command which doesnt exits
+# although after the tests are passed as it sits and wait for more input if
+# user wants to pass,so to exit the npm run test comamnd we hit -- --coverage
+# command with some status codes and details
+script:
+  - docker run rohit23421/docker-react npm run test -- --coverage
