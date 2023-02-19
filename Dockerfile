@@ -14,6 +14,10 @@ RUN npm run build
 
 # now the image for the second phase : run phase
 FROM nginx as runphase
+# exposing the port for deplyoing it to elasticbeanstalk
+# this command only works with elasticbeanstalk and not
+# on our local machine as its of no use for us
+EXPOSE 80
 # copying from a different phase
 COPY --from=builderphase /app/build /usr/share/nginx/html
 # the frist command is the phase from where we want
